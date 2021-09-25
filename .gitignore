@@ -1,0 +1,4 @@
+*.out
+/.vscode
+*.arc
+access_log_Jul95
