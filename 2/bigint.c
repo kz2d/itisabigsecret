@@ -23,13 +23,13 @@ uint_1024 *initBigInt()
 
     return s;
 }
-uint_1024 *sum(uint_1024 inpF, uint_1024 inpS)
+uint_1024 *sum(uint_1024 *inpF, uint_1024 *inpS)
 {
     uint_1024 *s = initBigInt();
     long long buf = 0;
     for (int i = 0; i < MAX_INT; i++)
     {
-        buf += inpF.data[i] + inpS.data[i];
+        buf += inpF->data[i] + inpS->data[i];
         s->data[i] = buf % 10;
         buf /= 10;
     }
@@ -85,17 +85,6 @@ uint_1024 *mul(uint_1024 *inpF, uint_1024 *inpS)
         {
             printf("OVERLOAD");
         }
-    }
-    return s;
-}
-uint_1024 *divide(uint_1024 *inpF, uint_1024 *inpS)
-{
-    uint_1024 *s = initBigInt();
-    int buf = 0;
-    for (int z = 0; qual_zero(inpF); z++)
-    {
-        inpF = minus(s, inpS);
-        buf++;
     }
     return s;
 }

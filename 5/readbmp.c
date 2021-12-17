@@ -31,7 +31,11 @@ BOARD *readBitmapImage(char *imageFileName)
 {
 
     FILE *imageFile = fopen(imageFileName, "rb");
-
+    if (imageFile == NULL)
+    {
+        printf("open file error");
+        exit(2);
+    }
     IMAGE_INFO *image;
     image = malloc(sizeof(IMAGE_INFO));
 
@@ -77,7 +81,9 @@ BOARD *readBitmapImage(char *imageFileName)
             {
                 res[i * image->height + j] = 1;
             }
+            printf("%d", res[i * image->height + j]);
         }
+        printf("\n");
     }
 
     fclose(imageFile);
@@ -125,17 +131,17 @@ void readBitmapFileHeader(FILE *file, IMAGE_INFO *image)
 void readBitmapInfoHeader(FILE *file, IMAGE_INFO *image)
 {
     static unsigned char infoHeader[] = {
-        0, 0, 0, 0, /// header size
-        0, 0, 0, 0, /// image width
-        0, 0, 0, 0, /// image height
-        0, 0,       /// number of color planes
-        0, 0,       /// bits per pixel
-        0, 0, 0, 0, /// compression
-        0, 0, 0, 0, /// image size
-        0, 0, 0, 0, /// horizontal resolution
-        0, 0, 0, 0, /// vertical resolution
-        0, 0, 0, 0, /// colors in color table
-        0, 0, 0, 0, /// important color count
+        0, 0, 0, 0, // header size
+        0, 0, 0, 0, // image width
+        0, 0, 0, 0, // image height
+        0, 0,       // number of color planes
+        0, 0,       // bits per pixel
+        0, 0, 0, 0, // compression
+        0, 0, 0, 0, // image size
+        0, 0, 0, 0, // horizontal resolution
+        0, 0, 0, 0, // vertical resolution
+        0, 0, 0, 0, // colors in color table
+        0, 0, 0, 0, // important color count
     };
     fread(infoHeader, sizeof(char), image->startOfImage - 14, file);
 

@@ -2,7 +2,7 @@
 #include "readbmp.h"
 #define CELL_SIZE 1
 
-const int BYTES_PER_PIXEL = 3; /// red, green, & blue
+const int BYTES_PER_PIXEL = 3; // red, green, & blue
 const int FILE_HEADER_SIZE = 14;
 const int INFO_HEADER_SIZE = 40;
 
@@ -23,9 +23,9 @@ int saveImage(BOARD *b, char *fileName)
     {
         for (j = 0; j < width; j++)
         {
-            image[i][j][2] = (unsigned char)(array[i * height / CELL_SIZE + j / CELL_SIZE] * -255 + 255); ///red
-            image[i][j][1] = (unsigned char)(array[i * height / CELL_SIZE + j / CELL_SIZE] * -255 + 255); ///green
-            image[i][j][0] = (unsigned char)(array[i * height / CELL_SIZE + j / CELL_SIZE] * -255 + 255); ///blue
+            image[i][j][2] = (unsigned char)(array[i * height / CELL_SIZE + j / CELL_SIZE] * -255 + 255); //red
+            image[i][j][1] = (unsigned char)(array[i * height / CELL_SIZE + j / CELL_SIZE] * -255 + 255); //green
+            image[i][j][0] = (unsigned char)(array[i * height / CELL_SIZE + j / CELL_SIZE] * -255 + 255); //blue
         }
     }
 
@@ -41,9 +41,14 @@ void generateBitmapImage(unsigned char *image, int height, int width, char *imag
     int paddingSize = (4 - (widthInBytes) % 4) % 4;
 
     int stride = (widthInBytes) + paddingSize;
-    printf("zzz\n");
+    printf("\nzzz\n");
     fflush(stdout);
     FILE *imageFile = fopen(imageFileName, "wb");
+    if (imageFile == NULL)
+    {
+        printf("OPEN FILE PROBLEM");
+        exit(3);
+    }
     printf("zzz\n");
     fflush(stdout);
 
@@ -68,10 +73,10 @@ unsigned char *createBitmapFileHeader(int height, int stride)
     int fileSize = FILE_HEADER_SIZE + INFO_HEADER_SIZE + (stride * height);
 
     static unsigned char fileHeader[] = {
-        0, 0,       /// signature
-        0, 0, 0, 0, /// image file size in bytes
-        0, 0, 0, 0, /// reserved
-        0, 0, 0, 0, /// start of pixel array
+        0, 0,       // signature
+        0, 0, 0, 0, // image file size in bytes
+        0, 0, 0, 0, // reserved
+        0, 0, 0, 0, // start of pixel array
     };
 
     fileHeader[0] = (unsigned char)('B');
@@ -88,17 +93,17 @@ unsigned char *createBitmapFileHeader(int height, int stride)
 unsigned char *createBitmapInfoHeader(int height, int width)
 {
     static unsigned char infoHeader[] = {
-        0, 0, 0, 0, /// header size
-        0, 0, 0, 0, /// image width
-        0, 0, 0, 0, /// image height
-        0, 0,       /// number of color planes
-        0, 0,       /// bits per pixel
-        0, 0, 0, 0, /// compression
-        0, 0, 0, 0, /// image size
-        0, 0, 0, 0, /// horizontal resolution
-        0, 0, 0, 0, /// vertical resolution
-        0, 0, 0, 0, /// colors in color table
-        0, 0, 0, 0, /// important color count
+        0, 0, 0, 0, // header size
+        0, 0, 0, 0, // image width
+        0, 0, 0, 0, // image height
+        0, 0,       // number of color planes
+        0, 0,       // bits per pixel
+        0, 0, 0, 0, // compression
+        0, 0, 0, 0, // image size
+        0, 0, 0, 0, // horizontal resolution
+        0, 0, 0, 0, // vertical resolution
+        0, 0, 0, 0, // colors in color table
+        0, 0, 0, 0, // important color count
     };
 
     infoHeader[0] = (unsigned char)(INFO_HEADER_SIZE);

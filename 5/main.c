@@ -11,12 +11,12 @@ int main(int argc, char const *argv[])
     printSettings(s);
     BOARD *b = readBitmapImage(s->inputFile);
     unsigned char *res;
-    int maxIter = 1000000000;
-    if (s->maxIter > 0)
-        maxIter = s->maxIter;
+    if (s->maxIter <= 0)
+        s->maxIter = 1000000000;
     if (s->dumpFreq == 0)
         s->dumpFreq = 1;
-    for (int iter = 0; iter < 10; iter++)
+
+    for (int iter = 0; iter < s->maxIter; iter++)
     {
         res = malloc(b->height * b->width * sizeof(char));
 
@@ -29,9 +29,9 @@ int main(int argc, char const *argv[])
                 int nextX = x + 1;
                 int nextY = y + 1;
                 if (prevY == -1)
-                    prevY = 0;
+                    prevY = b->height - 1;
                 if (prevX == -1)
-                    prevX = 0;
+                    prevX = b->width - 1;
                 if (nextX == b->width)
                     nextX = 0;
                 if (nextY == b->height)
@@ -40,7 +40,7 @@ int main(int argc, char const *argv[])
                 int buf = b->board[y * b->height + nextX] + b->board[y * b->height + prevX] +
                           b->board[prevY * b->height + nextX] + b->board[nextY * b->height + nextX] +
                           b->board[prevY * b->height + prevX] + b->board[nextY * b->height + prevX] +
-                          b->board[prevY * b->height + x] + b->board[nextX * b->height + x];
+                          b->board[prevY * b->height + x] + b->board[nextY * b->height + x];
                 res[y * b->height + x] = 0;
                 if (b->board[y * b->height + x])
                 {
@@ -51,13 +51,13 @@ int main(int argc, char const *argv[])
                     res[y * b->height + x] = 1;
             }
         }
-
+        free(b->board);
         b->board = res;
-        printf("lol\n");
-        if (1)
+        printf("%d\n", iter);
+        if (iter % s->dumpFreq == 0)
         {
             char dst[118];
-            sprintf(dst, "/home/kz2d/Downloads/c/5/%s/lol%d.bmp\0", s->outputDir, iter);
+            sprintf(dst, "%s/%d.bmp\0", s->outputDir, iter);
             printf(dst);
             fflush(stdout);
             saveImage(b, dst);

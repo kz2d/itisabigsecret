@@ -24,7 +24,7 @@ void makeArchive(ARCHIVE *archive)
 {
     FILE *output = fopen(archive->outputFile, "wb");
     fwrite(&archive->fileCount, sizeof(int), 1, output);
-    for (int i = 0; i < archive->fileCount; i++)
+    for (int i = 0; i < archive->fileCount; i++)//create header of archive
     {
         int z = strlen(archive->fileNames[i]);
         fwrite(&z, sizeof(int), 1, output);

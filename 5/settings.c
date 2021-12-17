@@ -37,12 +37,12 @@ SETTINGS *createSettings(int argc, char *argv[])
         else if (!strcmp(argv[i], "--max_iter"))
         {
             i++;
-            settings->maxIter = argv[i][0];
+            settings->maxIter = atoi(argv[i]);
         }
         else if (!strcmp(argv[i], "--dump_freq"))
         {
             i++;
-            settings->dumpFreq = argv[i][0];
+            settings->dumpFreq = atoi(argv[i]);
         }
         else
         {
